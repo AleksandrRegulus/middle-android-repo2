@@ -5,6 +5,8 @@ import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -32,7 +34,13 @@ class ChatViewModelTest {
     @Test
     fun `send message should update messages with MyMessage`() = runTest {
         val message = Message.MyMessage("TestMessage")
+        val viewModel = ChatViewModel(isWithReplies = false)
 
+        viewModel.sendMyMessage("TestMessage")
+
+        val expect = listOf(message)
+        val actual = viewModel.messages.value
+        assertThat(actual, equalTo(expect))
     }
 
     @Test
