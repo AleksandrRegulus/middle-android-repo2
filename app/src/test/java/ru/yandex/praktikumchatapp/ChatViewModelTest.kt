@@ -37,7 +37,6 @@ class ChatViewModelTest {
     @Test
     fun `send message should update messages with MyMessage`() = runTest {
         val message = Message.MyMessage("TestMessage")
-        val viewModel = ChatViewModel(isWithReplies = false)
 
         viewModel.sendMyMessage("TestMessage")
 
@@ -49,7 +48,6 @@ class ChatViewModelTest {
     @Test
     fun testReceiveMessage_concurrentMessages() = runTest {
         val messagesToSend = (1..100).map { Message.MyMessage("Message $it") }
-        val viewModel = ChatViewModel(isWithReplies = false)
 
         messagesToSend.map { launch { viewModel.sendMyMessage(it.text) } }.joinAll()
         advanceUntilIdle()
