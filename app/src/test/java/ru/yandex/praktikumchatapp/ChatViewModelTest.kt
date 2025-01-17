@@ -4,7 +4,6 @@ import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -50,7 +49,6 @@ class ChatViewModelTest {
         val messagesToSend = (1..100).map { Message.MyMessage("Message $it") }
 
         messagesToSend.map { launch { viewModel.sendMyMessage(it.text) } }.joinAll()
-        advanceUntilIdle()
 
         val actual = viewModel.messages.value
         assertThat(actual, equalTo(messagesToSend))

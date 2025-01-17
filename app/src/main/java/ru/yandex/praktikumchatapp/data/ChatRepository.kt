@@ -11,16 +11,17 @@ class ChatRepository(
 
     companion object {
         private const val DELAY_FACTOR = 2
+        private const val DELAY_TIME = 1000L
     }
 
     fun getReplyMessage(): Flow<String> {
-        var currentDelay = 1000L
+        var currentDelay = DELAY_TIME
         return api.getReply().retryWhen { exception, attempt ->
             delay(currentDelay)
             currentDelay *= DELAY_FACTOR
             true
         }.map {
-            currentDelay = 1000L
+            currentDelay = DELAY_TIME
             it
         }
     }
